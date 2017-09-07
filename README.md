@@ -4,7 +4,7 @@ This plugin adds the possibility to render your `handlebars` templates in an eas
 
 ### How to
 
-```js
+``` js
 import Veams from 'veams';
 import VeamsVent from 'veams-plugin-templater';
 import handlebars from 'handlebars';
@@ -24,4 +24,10 @@ Veams.use(VeamsTemplater, {
         customHelper
     ]
 });
+
+// Render the template
+$(body).append(
+    Veams.templater.render('_test-partial', {data: 'custom data passed to partial'})
+);
+
 ```
