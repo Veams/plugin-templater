@@ -67,12 +67,7 @@ class Templater {
 			templates: this.options.templates(this.options.engine),
 			partials: this.options.partials ? this.options.partials(this.options.engine) : {},
 			helpers: this.options.helpers,
-			render: function (tplName, data) {
-				if (!data && Veams.templater.templates[tplName]) {
-					console.error(`VeamsTemplater :: You need to provide some data for ${tplName}.`);
-					return;
-				}
-
+			render: function (tplName, data = {}) {
 				if (!Veams.templater.templates[tplName]) {
 					console.error(`VeamsTemplater :: Template ${tplName} not found.`);
 					return;
@@ -104,7 +99,7 @@ const VeamsTemplater = {
 	},
 	pluginName: 'Templater',
 	initialize: function (Veams, {engine, templates, partials, helpers}) {
-		new Templater(Veams, {
+		return new Templater(Veams, {
 			engine,
 			templates,
 			partials,
