@@ -1,14 +1,46 @@
 'use strict';
+
+let Veams: any = {};
+
+/**
+ * Interfaces
+ */
+export interface ITemplaterOptions {
+	engine: any,
+	templates: any,
+	partials?: any,
+	helpers?: any[]
+}
+
+export interface ITemplater extends ITemplaterOptions {
+	render: any;
+}
+
+export interface VeamsExtendedByTemplater {
+	templater: ITemplater
+}
+
+export interface ITemplaterPlugin {
+	options: ITemplaterOptions,
+	pluginName: string,
+	initialize: any
+}
+
 /**
  * Represents the Templater class which will be used in VeamsTemplater plugin.
  * @module Templater
  *
  * @author Sebastian Fitzner
  */
-let Veams = {};
-
 class Templater {
-	constructor(VEAMS = window.Veams, {engine, templates, partials, helpers}) {
+	options = {
+		engine: null,
+		templates: null,
+		partials: null,
+		helpers: null
+	};
+
+	constructor(VEAMS = window['Veams'], {engine, templates, partials = null, helpers = null}: ITemplaterOptions) {
 		Veams = VEAMS;
 
 		if (!templates) {
@@ -22,7 +54,6 @@ class Templater {
 		}
 
 		this.options = {
-			namespace: Veams.options.namespace,
 			engine,
 			templates,
 			partials,
@@ -32,15 +63,15 @@ class Templater {
 		this.initialize();
 	}
 
-	initialize() {
+	initialize(): VeamsExtendedByTemplater {
 		if (this.options.helpers) {
 			this.registerHelpers();
 		}
 
-		this.addTemplater();
+		return this.addTemplater();
 	}
 
-	registerHelpers() {
+	registerHelpers(): void {
 		if (!Array.isArray(this.options.helpers)) {
 			console.error(`VeamsTemplater :: You need to pass the helpers as an array!`);
 			return;
@@ -57,7 +88,7 @@ class Templater {
 		}
 	}
 
-	addTemplater() {
+	addTemplater(): VeamsExtendedByTemplater {
 		if (Veams.templater) {
 			console.warn('It seems that you are already using Veams.templater! Veams is overriding it now!');
 		}
@@ -67,7 +98,7 @@ class Templater {
 			templates: this.options.templates(this.options.engine),
 			partials: this.options.partials ? this.options.partials(this.options.engine) : {},
 			helpers: this.options.helpers,
-			render: function (tplName, data = {}) {
+			render: function (tplName: string, data = {}) {
 				if (!Veams.templater.templates[tplName]) {
 					console.error(`VeamsTemplater :: Template ${tplName} not found.`);
 					return;
@@ -76,6 +107,8 @@ class Templater {
 				return Veams.templater.templates[tplName](data);
 			}
 		};
+
+		return Veams;
 	}
 }
 
@@ -87,7 +120,7 @@ class Templater {
  *
  * @author Sebastian Fitzner
  */
-const VeamsTemplater = {
+const TemplaterPlugin: ITemplaterPlugin = {
 	options: {
 		engine: () => {
 		},
@@ -98,7 +131,7 @@ const VeamsTemplater = {
 		helpers: []
 	},
 	pluginName: 'Templater',
-	initialize: function (Veams, {engine, templates, partials, helpers}) {
+	initialize: function (Veams, {engine, templates, partials, helpers}: ITemplaterOptions) {
 		return new Templater(Veams, {
 			engine,
 			templates,
@@ -108,5 +141,5 @@ const VeamsTemplater = {
 	}
 };
 
-export default VeamsTemplater;
-export {Templater};
+export default TemplaterPlugin;
+export { Templater };
