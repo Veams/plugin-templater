@@ -1,8 +1,15 @@
+[//]: # ({{#wrapWith "content-section"}})
+
+[//]: #     ({{#wrapWith "grid-row"}})
+[//]: #         ({{#wrapWith "grid-col" colClasses="is-col-mobile-l-8"}})
+
 # Veams Templater Plugin (`@veams/plugin-templater`)
 
 This plugin adds the possibility to render your `handlebars` templates in an easy way. You can register the engine, templates, partials and helpers and use them directly in other classes.
 
 TypeScript is supported. 
+
+-----------------
 
 ## Installation
 
@@ -17,6 +24,8 @@ npm install @veams/plugin-templater --save
 ``` bash 
 yarn add @veams/plugin-templater
 ```
+
+-----------------
 
 ## Usage
 
@@ -44,10 +53,12 @@ Veams.onInitialize(() => {
 
 ### Options
 
-- _engine_ {`Function`} [`null`] - Provide the handlebars engine instance.
-- _templates_ {`Function`} [`null`] - Provide your precompiled handlebars templates.
-- _partials_ {`Function`} [`null`] - You can provide additional partials.
-- _helpers_ {`Array`} [`[]`] - Add custom handlebars helpers.
+| Option | Type | Default | Description |
+|:--- |:---:|:---:|:--- |
+| _engine_ | {`Function`} | [`null`] | Provide the handlebars engine instance. |
+| _templates_ | {`Function`} | [`null`] | Provide your precompiled handlebars templates. |
+| _partials_ | {`Function`} | [`null`] | You can provide additional partials. |
+| _helpers_ | {`Array`} | [`[]`] | Add custom handlebars helpers. |
 
 ### API
 
@@ -59,3 +70,8 @@ $(body).append(
     Veams.templater.render('test-template', {data: 'custom data passed to partial'})
 );
 ```
+
+[//]: #         ({{/wrapWith}})
+[//]: #     ({{/wrapWith}})
+
+[//]: # ({{/wrapWith}})
