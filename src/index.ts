@@ -93,12 +93,14 @@ class Templater {
 			console.warn('It seems that you are already using Veams.templater! Veams is overriding it now!');
 		}
 
+		this.options.engine.partials = this.options.partials(this.options.engine);
+
 		Veams.templater = {
 			engine: this.options.engine,
 			templates: this.options.templates(this.options.engine),
 			partials: this.options.partials ? this.options.partials(this.options.engine) : {},
 			helpers: this.options.helpers,
-			render: function (tplName: string, data = {}) {
+			render: (tplName: string, data = {}) => {
 				if (!Veams.templater.templates[tplName]) {
 					console.error(`VeamsTemplater :: Template ${tplName} not found.`);
 					return;
