@@ -29,7 +29,7 @@ yarn add @veams/plugin-templater
 
 ## Usage
 
-```js
+``` js
 import Veams from '@veams/core';
 import TemplaterPlugin from '@veams/plugin-templater';
 import handlebars from 'handlebars/runtime';
@@ -64,7 +64,7 @@ Veams.onInitialize(() => {
 
 When enabled you can render your template by simple executing the `Veams.templater.render()`:
 
-```js
+``` js
 // Render the template
 $(body).append(
     Veams.templater.render('test-template', {data: 'custom data passed to partial'})
